@@ -9,7 +9,7 @@ ENV R_VERSION=$R_VERSION
 # Setting the Python version
 ARG PYTHON_VER=3.10
 ENV PYTHON_VER=$PYTHON_VER
-ARG VENV_NAME="env_radian"
+ARG VENV_NAME="env_1"
 ENV VENV_NAME=$VENV_NAME
 ARG QUARTO_VERSION=1.5.43
 ENV QUARTO_VERSION=$QUARTO_VERSION
@@ -43,7 +43,7 @@ ENV VSCODE_INIT_R="R/session/init.R"
 # Create a directory for packages builds
 RUN mkdir pkgs
 
-COPY docker/setting_files/*.sh docker/setting_files/requirements.txt docker/setting_files/env_radian.yml pkgs/
+COPY docker/setting_files/*.sh docker/setting_files/requirements.txt docker/setting_files/renv1.yml pkgs/
 
 # Install Debian dependencies
 RUN bash pkgs/install_debian.sh
@@ -77,6 +77,15 @@ ENV PATH=/opt/conda/bin:$PATH
 RUN chmod +x pkgs/create_conda_env.sh && \
     bash pkgs/create_conda_env.sh
 
+# Install JupyterLab and configure env_1
+RUN conda install -c conda-forge jupyterlab && \
+    conda env create -f docker/setting_files/env_1.yml && \
+    conda run -n env_1 python -m ipykernel install --user --name=env_1 --display-name="Python (env_1)"
+
+# Copy and make executable the JupyterLab configuration script
+COPY docker/setting_files/configure_jupyter.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/configure_jupyter.sh
+
 RUN bash pkgs/install_python.sh $VENV_NAME
 
 RUN bash pkgs/install_quarto.sh $QUARTO_VERSION
@@ -84,8 +93,12 @@ RUN bash pkgs/install_quarto.sh $QUARTO_VERSION
 COPY docker/setting_files/*.R docker/setting_files/*.json pkgs/
 RUN mv pkgs/packages_vscode.json pkgs/packages.json
 RUN Rscript pkgs/install_packages.R
-RUN rm pkgs/*.*
 
+# Install IRkernel and configure it for Jupyter
+RUN R -e "install.packages('IRkernel', repos='${CRAN_MIRROR}')" && \
+    R -e "IRkernel::installspec(user = FALSE)"
+
+RUN rm pkgs/*.*
 
 COPY docker/setting_files/.Rprofile root/
 RUN echo "alias r='radian'" >> ~/.bashrc

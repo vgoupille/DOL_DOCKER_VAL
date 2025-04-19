@@ -1,9 +1,0 @@
-name: env_radian
-channels:
-  - conda-forge
-  - defaults
-dependencies:
-  - python=3.10
-  - pip
-  - pip:
-    - radian 

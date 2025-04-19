@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Create and activate the environment
-conda env create -f env_radian.yml
-echo "conda activate env_radian" >> ~/.bashrc
+conda env create -f renv1.yml
+echo "conda activate renv1" >> ~/.bashrc
 
 # Verify installation
-conda activate env_radian
+conda activate renv1
 python --version
 radian --version 
