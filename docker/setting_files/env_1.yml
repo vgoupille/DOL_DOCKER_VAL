@@ -1,4 +1,4 @@
-name: env_python_analysis
+name: env_1
 channels:
   - conda-forge
   - bioconda
@@ -20,11 +20,8 @@ dependencies:
   - jupyterlab-language-pack-en-US
   - numpy
   - pandas
-  - biopython
-  - scanpy
-  - anndata
   - matplotlib
   - scikit-learn
   - seaborn
   - statsmodels
-  - pip
+  - pip 

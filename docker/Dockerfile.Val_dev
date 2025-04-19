@@ -43,7 +43,7 @@ ENV VSCODE_INIT_R="R/session/init.R"
 # Create a directory for packages builds
 RUN mkdir pkgs
 
-COPY docker/setting_files/*.sh docker/setting_files/requirements.txt docker/setting_files/renv1.yml pkgs/
+COPY docker/setting_files/*.sh docker/setting_files/requirements.txt docker/setting_files/env_1.yml pkgs/
 
 # Install Debian dependencies
 RUN bash pkgs/install_debian.sh
@@ -81,9 +81,6 @@ RUN chmod +x pkgs/create_conda_env.sh && \
 RUN chmod +x pkgs/install_jupyter.sh && \
     bash pkgs/install_jupyter.sh
 
-# Copy and make executable the JupyterLab configuration script
-COPY docker/setting_files/configure_jupyter.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/configure_jupyter.sh
 
 RUN bash pkgs/install_python.sh $VENV_NAME
 

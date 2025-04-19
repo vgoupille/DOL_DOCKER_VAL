@@ -25,8 +25,20 @@
         // Python Extensions
         "ms-python.python",
         "ms-toolsai.jupyter"
-      ]
+      ],
+      "settings": {
+        "jupyter.jupyterServerType": "local",
+        "jupyter.alwaysTrustNotebooks": true,
+        "jupyter.askForKernelRestart": false,
+        "jupyter.debugJustMyCode": true,
+        "jupyter.enablePythonKernel": true,
+        "jupyter.enableRDebugger": true,
+        "jupyter.sendSelectionToInteractiveWindow": true,
+        "jupyter.interactiveWindowMode": "perFile"
+      }
     }
   },
+  "forwardPorts": [8888],
+  "postCreateCommand": "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' &",
   "postStartCommand": "until [ -f /root/.vscode-R/init.R ]; do sleep 0.1; done; radian"
 }
