@@ -3,7 +3,7 @@
 echo "Build the docker"
 
 # Parameters
-user_name="rkrispin"
+user_name="vgoupille"
 image_label="r-dev"
 r_major=4
 r_minor=4

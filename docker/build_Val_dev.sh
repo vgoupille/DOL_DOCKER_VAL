@@ -3,8 +3,8 @@
 echo "Build the docker"
 
 # Parameters
-user_name="rkrispin"
-image_label="baser"
+user_name="vgoupille"
+image_label="Val_dev"
 r_major=4
 r_minor=4
 r_patch=0
