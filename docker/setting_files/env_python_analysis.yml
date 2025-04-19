@@ -1,4 +1,4 @@
-name: env_1
+name: env_python_analysis
 channels:
   - conda-forge
   - bioconda

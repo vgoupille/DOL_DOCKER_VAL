@@ -9,7 +9,7 @@ ENV R_VERSION=$R_VERSION
 # Setting the Python version
 ARG PYTHON_VER=3.10
 ENV PYTHON_VER=$PYTHON_VER
-ARG VENV_NAME="env_1"
+ARG VENV_NAME="env_radian"
 ENV VENV_NAME=$VENV_NAME
 ARG QUARTO_VERSION=1.5.43
 ENV QUARTO_VERSION=$QUARTO_VERSION
@@ -78,9 +78,8 @@ RUN chmod +x pkgs/create_conda_env.sh && \
     bash pkgs/create_conda_env.sh
 
 # Install JupyterLab and configure env_1
-RUN conda install -c conda-forge jupyterlab && \
-    conda env create -f docker/setting_files/env_1.yml && \
-    conda run -n env_1 python -m ipykernel install --user --name=env_1 --display-name="Python (env_1)"
+RUN chmod +x pkgs/install_jupyter.sh && \
+    bash pkgs/install_jupyter.sh
 
 # Copy and make executable the JupyterLab configuration script
 COPY docker/setting_files/configure_jupyter.sh /usr/local/bin/
