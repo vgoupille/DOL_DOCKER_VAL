@@ -3,25 +3,37 @@ FROM ubuntu:22.04
 LABEL maintainer="Valentin Goupille"
 
 # Set R version
-ARG R_VERSION_MAJOR=4
-ARG R_VERSION_MINOR=4
-ARG R_VERSION_PATCH=0
-ENV R_VERSION_MAJOR=$R_VERSION_MAJOR
-ENV R_VERSION_MINOR=$R_VERSION_MINOR
-ENV R_VERSION_PATCH=$R_VERSION_PATCH
+ARG R_VERSION=4.4.0
+ENV R_VERSION=$R_VERSION
+
 # Setting the Python version
 ARG PYTHON_VER=3.10
 ENV PYTHON_VER=$PYTHON_VER
-ARG VENV_NAME="r-env"
+ARG VENV_NAME="env_radian"
 ENV VENV_NAME=$VENV_NAME
 ARG QUARTO_VERSION=1.5.43
 ENV QUARTO_VERSION=$QUARTO_VERSION
+ARG MINICONDA_VERSION=py310_23.11.0-2
+ENV MINICONDA_VERSION=$MINICONDA_VERSION
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CONFIGURE_OPTIONS="--with-cairo --with-jpeglib --enable-R-shlib --with-blas --with-lapack"
-# CRAN Mirror
+
+
+# Mirror
+
+#CRAN Mirror
 ARG CRAN_MIRROR=https://cran.rstudio.com/
 ENV CRAN_MIRROR=$CRAN_MIRROR
+
+#Bioconductor Mirror
+ARG BIOCONDUCTOR_MIRROR=https://bioconductor.org/packages/release/bioc/
+ENV BIOCONDUCTOR_MIRROR=$BIOCONDUCTOR_MIRROR
+ENV BIOCONDUCTOR_VERSION=3.20
+ENV BIOCONDUCTOR_SOFTWARE=${BIOCONDUCTOR_MIRROR}/bioc
+ENV BIOCONDUCTOR_ANNOTATION=${BIOCONDUCTOR_MIRROR}/data/annotation
+ENV BIOCONDUCTOR_EXPERIMENT=${BIOCONDUCTOR_MIRROR}/data/experiment
+
 
 # Radian Settings
 ENV R_PROFILE_USER="/root/.Rprofile"
@@ -31,18 +43,21 @@ ENV VSCODE_INIT_R="R/session/init.R"
 # Create a directory for packages builds
 RUN mkdir pkgs
 
-COPY docker/setting_files/*.sh docker/setting_files/requirements.txt pkgs/
+COPY docker/setting_files/*.sh docker/setting_files/requirements.txt docker/setting_files/env_radian.yml pkgs/
 
 # Install Debian dependencies
 RUN bash pkgs/install_debian.sh
 
 
 # Installing R
-RUN wget https://cran.rstudio.com/src/base/R-${R_VERSION_MAJOR}/R-${R_VERSION_MAJOR}.${R_VERSION_MINOR}.${R_VERSION_PATCH}.tar.gz && \
-    tar zxvf R-${R_VERSION_MAJOR}.${R_VERSION_MINOR}.${R_VERSION_PATCH}.tar.gz && \
-    rm R-${R_VERSION_MAJOR}.${R_VERSION_MINOR}.${R_VERSION_PATCH}.tar.gz
+RUN R_VERSION_MAJOR=$(echo $R_VERSION | cut -d. -f1) && \
+    R_VERSION_MINOR=$(echo $R_VERSION | cut -d. -f2) && \
+    R_VERSION_PATCH=$(echo $R_VERSION | cut -d. -f3) && \
+    wget https://cran.rstudio.com/src/base/R-${R_VERSION_MAJOR}/R-${R_VERSION}.tar.gz && \
+    tar zxvf R-${R_VERSION}.tar.gz && \
+    rm R-${R_VERSION}.tar.gz
 
-WORKDIR /R-${R_VERSION_MAJOR}.${R_VERSION_MINOR}.${R_VERSION_PATCH}
+WORKDIR /R-${R_VERSION}
 
 RUN ./configure ${CONFIGURE_OPTIONS} && \
     make && \
@@ -52,6 +67,15 @@ RUN locale-gen en_US.UTF-8
 
 WORKDIR /
 
+# Install Miniconda
+RUN chmod +x pkgs/install_miniconda.sh && \
+    bash pkgs/install_miniconda.sh $MINICONDA_VERSION
+
+ENV PATH=/opt/conda/bin:$PATH
+
+# Create Conda environment
+RUN chmod +x pkgs/create_conda_env.sh && \
+    bash pkgs/create_conda_env.sh
 
 RUN bash pkgs/install_python.sh $VENV_NAME
 

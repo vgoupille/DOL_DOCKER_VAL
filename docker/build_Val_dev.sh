@@ -5,12 +5,11 @@ echo "Build the docker"
 # Parameters
 user_name="vgoupille"
 image_label="Val_dev"
-r_major=4
-r_minor=4
-r_patch=0
+R_VERSION="4.4.0"
 quarto_ver="1.5.47"
 python_ver="3.10"
 venv_name="r-env"
+miniconda_ver="py310_23.11.0-2"
 
 # Identify the CPU type (M1 vs Intel)
 if [[ $(uname -m) ==  "aarch64" ]] ; then
@@ -22,9 +21,8 @@ else
 fi
 
 # Setting the image name
-ver=${r_major}.${r_minor}.${r_patch}
-tag="${CPU}.${ver}"
-docker_file=Dockerfile.base-r
+tag="${CPU}.${R_VERSION}"
+docker_file=Dockerfile.Val_dev
 image_name=$user_name/$image_label:$tag
 
 echo "Image name: $image_name"
@@ -33,11 +31,10 @@ echo "Image name: $image_name"
 docker build . \
   -f $docker_file --progress=plain \
   --build-arg PYTHON_VER=$python_ver \
-  --build-arg R_VERSION_MAJOR=$r_major \
-  --build-arg R_VERSION_MINOR=$r_minor \
-  --build-arg R_VERSION_PATCH=$r_patch \
+  --build-arg R_VERSION=$R_VERSION \
   --build-arg QUARTO_VERSION=$quarto_ver \
   --build-arg VENV_NAME=$venv_name \
+  --build-arg MINICONDA_VERSION=$miniconda_ver \
    -t $image_name
 
 # Push
