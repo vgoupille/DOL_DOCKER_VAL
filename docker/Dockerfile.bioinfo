@@ -15,3 +15,5 @@ RUN Rscript /pkgs/install_Renv_packages.R
 # Clean up
 RUN rm /pkgs/install_Renv_packages.R
 
+# Copy the new .Rprofile directly to its final location
+COPY docker/setting_files/new_Rprofile/.Rprofile /root/.Rprofile

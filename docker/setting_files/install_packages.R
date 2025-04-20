@@ -6,6 +6,8 @@
 # See: https://stedolan.github.io/jq/
 # ---- Code starts here
 
+setwd("./pkgs/")
+
 # Get CRAN mirror from environment variable
 cran_mirror <- Sys.getenv("CRAN_MIRROR", "https://cran.rstudio.com/")
 
