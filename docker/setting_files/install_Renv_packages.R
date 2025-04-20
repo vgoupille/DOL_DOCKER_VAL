@@ -6,6 +6,16 @@
 # - Bioconductor
 #
 
+# Installer renv si nécessaire
+if (!requireNamespace("renv", quietly = TRUE)) {
+    cat("Installation du package renv...\n")
+    install.packages("renv", repos = Sys.getenv("CRAN_MIRROR"))
+}
+
+# Initialiser renv
+cat("Initialisation de renv...\n")
+renv::init(bare = TRUE)
+
 # Environnement de base avec les packages essentiels
 
 #
@@ -198,13 +208,6 @@ if (!all_mirrors_accessible) {
 }
 
 cat("\nTous les miroirs sont accessibles. Début de l'installation...\n\n")
-
-
-
-
-
-
-
 
 # Fonction pour installer un package avec gestion des erreurs
 # Vérifie les incompatibilités avant l'installation

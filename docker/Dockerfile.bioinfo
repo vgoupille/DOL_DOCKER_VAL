@@ -4,5 +4,14 @@ FROM val_dev:latest
 LABEL maintainer="Valentin Goupille"
 LABEL description="Add renv to the development environment to add supplementary packages"
 
-#Create  Renv environment 
+# Create Renv environment 
+
+# Copy the renv installation script
+COPY docker/setting_files/install_Renv_packages.R /pkgs/
+
+# Run the package installation script
+RUN Rscript /pkgs/install_Renv_packages.R
+
+# Clean up
+RUN rm /pkgs/install_Renv_packages.R
 

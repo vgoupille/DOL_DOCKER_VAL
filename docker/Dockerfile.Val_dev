@@ -76,6 +76,7 @@ RUN chmod +x pkgs/create_conda_env.sh && \
 
 # Install JupyterLab and configure env_1 for Python and IRkernel for my_env_R
 RUN chmod +x pkgs/config_jupyter.sh && \
+    cd / && \
     bash pkgs/config_jupyter.sh
 
 RUN chmod +x pkgs/install_python.sh && \
