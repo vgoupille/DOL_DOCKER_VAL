@@ -25,10 +25,19 @@
         // Python Extensions
         "ms-python.python",
         "ms-toolsai.jupyter",
+        // Jupyter Notebook Extensions
+        "ms-toolsai.vscode-jupyter-cell-tags",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        // CSV Extensions
+        "mechatroner.rainbow-csv",
         // Code Formatting
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        // Theme
+        "dracula-theme.theme-dracula"
       ],
       "settings": {
+        "workbench.colorTheme": "Dracula",
         "jupyter.jupyterServerType": "local",
         "jupyter.alwaysTrustNotebooks": true,
         "jupyter.askForKernelRestart": false,
@@ -40,7 +49,13 @@
         "jupyter.notebookFileRoot": "${workspaceFolder}",
         "jupyter.autoSaveInterval": 1,
         "jupyter.enhancedCellToolbar": true,
-        "jupyter.showCellStatusBar": true
+        "jupyter.showCellStatusBar": true,
+        "jupyter.cellTags": {
+          "notebookKernelJupyterNotebook": {
+            "backgroundColor": "#4CAF50",
+            "color": "#FFFFFF"
+          }
+        }
       }
     }
   },
