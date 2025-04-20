@@ -74,9 +74,9 @@ ENV PATH=/opt/conda/bin:$PATH
 RUN chmod +x pkgs/create_conda_env.sh && \
     bash pkgs/create_conda_env.sh
 
-# Install JupyterLab and configure env_1
+# Install JupyterLab and configure env_1 for Python and IRkernel for my_env_R
 RUN chmod +x pkgs/install_jupyter.sh && \
-    bash pkgs/install_jupyter.sh
+    bash pkgs/config_jupyter.sh
 
 RUN chmod +x pkgs/install_python.sh && \
     bash pkgs/install_python.sh $VENV_NAME
@@ -87,10 +87,6 @@ RUN chmod +x pkgs/install_quarto.sh && \
 # Install R packages
 RUN mv pkgs/packages_vscode.json pkgs/packages.json && \
     Rscript pkgs/install_packages.R
-
-# Install IRkernel and configure it for Jupyter
-RUN R -e "install.packages('IRkernel', repos='${CRAN_MIRROR}')" && \
-    R -e "IRkernel::installspec(user = FALSE)"
 
 # Clean up
 RUN rm -rf pkgs/*

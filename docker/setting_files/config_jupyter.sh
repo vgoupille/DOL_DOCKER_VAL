@@ -2,7 +2,10 @@
 
 # Install JupyterLab and create environment
 conda install -c conda-forge jupyterlab && \
-conda env create -f docker/setting_files/env_1.yml && \
+conda env create -f docker/setting_files/env_1.yml
+
+# Configure kernels for Jupyter
+R -e "IRkernel::installspec(user = FALSE, displayname = paste0('my_env_R ', Sys.getenv('R_VERSION')))" && \
 conda run -n env_1 python -m ipykernel install --user --name=env_1 --display-name="Python (env_1)"
 
 # Configure Jupyter settings
@@ -16,9 +19,6 @@ cat > ~/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyte
     }
 }
 EOL
-
-# Configure R kernel with dynamic version
-R -e "IRkernel::installspec(user = FALSE, displayname = paste0('R ', Sys.getenv('R_VERSION')))"
 
 # Set Jupyter memory limits
 echo "c.MemoryManager.limit = 8 * 1024 * 1024 * 1024" >> ~/.jupyter/jupyter_notebook_config.py

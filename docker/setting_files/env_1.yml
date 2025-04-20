@@ -18,10 +18,13 @@ dependencies:
   - jupyterlab-toc
   - jupyterlab-language-pack-fr-FR
   - jupyterlab-language-pack-en-US
-  - numpy
   - pandas
   - matplotlib
   - scikit-learn
   - seaborn
   - statsmodels
+  - numpy
+  - biopython
+  - scanpy
+  - anndata
   - pip 
