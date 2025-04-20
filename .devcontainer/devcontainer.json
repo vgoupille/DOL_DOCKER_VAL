@@ -10,34 +10,23 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        // R Extensions
         "reditorsupport.r",
         "rdebugger.r-debugger",
         "posit.shiny",
-        // Documentation Extensions
         "quarto.quarto",
         "purocean.drawio-preview",
         "redhat.vscode-yaml",
         "yzhang.markdown-all-in-one",
-        // Docker Supporting Extensions
         "ms-azuretools.vscode-docker",
         "ms-vscode-remote.remote-containers",
-        // Python Extensions
         "ms-python.python",
         "ms-toolsai.jupyter",
-        // Jupyter Notebook Extensions
-        "ms-toolsai.vscode-jupyter-cell-tags",
-        "ms-toolsai.jupyter-keymap",
-        "ms-toolsai.jupyter-renderers",
-        // CSV Extensions
         "mechatroner.rainbow-csv",
-        // Code Formatting
         "esbenp.prettier-vscode",
-        // Theme
-        "dracula-theme.theme-dracula"
+        "dracula-theme.theme-dracula",
+        "ms-toolsai.jupyter-renderers"
       ],
       "settings": {
-        "workbench.colorTheme": "Dracula",
         "jupyter.jupyterServerType": "local",
         "jupyter.alwaysTrustNotebooks": true,
         "jupyter.askForKernelRestart": false,
