@@ -1,0 +1,8 @@
+# Base image from the development environment
+FROM val_dev:latest
+
+LABEL maintainer="Valentin Goupille"
+LABEL description="Add renv to the development environment to add supplementary packages"
+
+#Create  Renv environment 
+
