@@ -19,10 +19,7 @@ ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CONFIGURE_OPTIONS="--with-cairo --with-jpeglib --enable-R-shlib --with-blas --with-lapack"
 
-
 # Mirror
-
-#CRAN Mirror
 ARG CRAN_MIRROR=https://cran.rstudio.com/
 ENV CRAN_MIRROR=$CRAN_MIRROR
 
@@ -34,20 +31,20 @@ ENV BIOCONDUCTOR_SOFTWARE=${BIOCONDUCTOR_MIRROR}/bioc
 ENV BIOCONDUCTOR_ANNOTATION=${BIOCONDUCTOR_MIRROR}/data/annotation
 ENV BIOCONDUCTOR_EXPERIMENT=${BIOCONDUCTOR_MIRROR}/data/experiment
 
-
 # Radian Settings
 ENV R_PROFILE_USER="/root/.Rprofile"
 ENV TERM_PROGRAM="vscode"
 ENV VSCODE_INIT_R="R/session/init.R"
 
 # Create a directory for packages builds
-RUN mkdir pkgs
+RUN mkdir -p pkgs
 
-COPY docker/setting_files/*.sh docker/setting_files/requirements.txt docker/setting_files/env_1.yml pkgs/
+# Copy all necessary files
+COPY docker/setting_files/* pkgs/
 
 # Install Debian dependencies
-RUN bash pkgs/install_debian.sh
-
+RUN chmod +x pkgs/install_debian.sh && \
+    bash pkgs/install_debian.sh
 
 # Installing R
 RUN R_VERSION_MAJOR=$(echo $R_VERSION | cut -d. -f1) && \
@@ -81,22 +78,24 @@ RUN chmod +x pkgs/create_conda_env.sh && \
 RUN chmod +x pkgs/install_jupyter.sh && \
     bash pkgs/install_jupyter.sh
 
+RUN chmod +x pkgs/install_python.sh && \
+    bash pkgs/install_python.sh $VENV_NAME
 
-RUN bash pkgs/install_python.sh $VENV_NAME
+RUN chmod +x pkgs/install_quarto.sh && \
+    bash pkgs/install_quarto.sh $QUARTO_VERSION
 
-RUN bash pkgs/install_quarto.sh $QUARTO_VERSION
-
-COPY docker/setting_files/*.R docker/setting_files/*.json pkgs/
-RUN mv pkgs/packages_vscode.json pkgs/packages.json
-RUN Rscript pkgs/install_packages.R
+# Install R packages
+RUN mv pkgs/packages_vscode.json pkgs/packages.json && \
+    Rscript pkgs/install_packages.R
 
 # Install IRkernel and configure it for Jupyter
 RUN R -e "install.packages('IRkernel', repos='${CRAN_MIRROR}')" && \
     R -e "IRkernel::installspec(user = FALSE)"
 
-RUN rm pkgs/*.*
+# Clean up
+RUN rm -rf pkgs/*
 
-COPY docker/setting_files/.Rprofile root/
+COPY docker/setting_files/.Rprofile /root/
 RUN echo "alias r='radian'" >> ~/.bashrc
 
 

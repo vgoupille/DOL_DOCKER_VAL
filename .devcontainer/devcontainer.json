@@ -24,7 +24,9 @@
         "ms-vscode-remote.remote-containers",
         // Python Extensions
         "ms-python.python",
-        "ms-toolsai.jupyter"
+        "ms-toolsai.jupyter",
+        // Code Formatting
+        "esbenp.prettier-vscode"
       ],
       "settings": {
         "jupyter.jupyterServerType": "local",
@@ -34,7 +36,11 @@
         "jupyter.enablePythonKernel": true,
         "jupyter.enableRDebugger": true,
         "jupyter.sendSelectionToInteractiveWindow": true,
-        "jupyter.interactiveWindowMode": "perFile"
+        "jupyter.interactiveWindowMode": "perFile",
+        "jupyter.notebookFileRoot": "${workspaceFolder}",
+        "jupyter.autoSaveInterval": 1,
+        "jupyter.enhancedCellToolbar": true,
+        "jupyter.showCellStatusBar": true
       }
     }
   },
