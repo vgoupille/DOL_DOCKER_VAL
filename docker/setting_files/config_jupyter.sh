@@ -20,11 +20,3 @@ cat > ~/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyte
 }
 EOL
 
-# Set Jupyter memory limits
-echo "c.MemoryManager.limit = 8 * 1024 * 1024 * 1024" >> ~/.jupyter/jupyter_notebook_config.py
-echo "c.NotebookApp.iopub_data_rate_limit = 10000000" >> ~/.jupyter/jupyter_notebook_config.py
-
-# Configure JupyterLab to start automatically
-echo "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' &" >> ~/.bashrc
-echo "sleep 2" >> ~/.bashrc
-echo "echo 'JupyterLab is running at http://localhost:8888'" >> ~/.bashrc 
