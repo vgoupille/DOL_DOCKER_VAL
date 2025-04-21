@@ -23,8 +23,25 @@
         "ms-toolsai.jupyter",
         "mechatroner.rainbow-csv",
         "esbenp.prettier-vscode",
-        "dracula-theme.theme-dracula",
-        "ms-toolsai.jupyter-renderers"
+        "ms-toolsai.jupyter-renderers",
+        "ms-python.debugpy",
+        "ms-python.vscode-pylance",
+        "aaron-bond.better-comments",
+        "KevinRose.vsc-python-indent",
+        "tomoki1207.pdf",
+        "ms-python.black-formatter",
+        "ms-toolsai.datawrangler",
+        "GrapeCity.gc-excelviewer",
+        "mhutchie.git-graph",
+        "GitHub.vscode-pull-request-github",
+        "eamodio.gitlens",
+        "oderwat.indent-rainbow",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "ms-toolsai.vscode-jupyter-cell-tags",
+        "James-Yu.latex-workshop",
+        "sumneko.lua",
+        "christian-kohler.path-intellisense",
+        "donjayamanne.python-extension-pack"
       ],
       "settings": {
         "jupyter.jupyterServerType": "local",
@@ -44,11 +61,22 @@
             "backgroundColor": "#4CAF50",
             "color": "#FFFFFF"
           }
-        }
+        },
+        "jupyter.serverURI": "http://localhost:8888",
+        "jupyter.remoteServerURI": "http://localhost:8888",
+        "jupyter.serverLaunchTimeout": 60,
+        "jupyter.serverConnectTimeout": 60,
+        "jupyter.serverShutdownTimeout": 60,
+        "jupyter.serverMaxRetries": 3,
+        "jupyter.serverRetryInterval": 10000,
+        "jupyter.serverPreload": true,
+        "jupyter.serverPreloadTimeout": 60,
+        "jupyter.serverPreloadMaxRetries": 3,
+        "jupyter.serverPreloadRetryInterval": 10000
       }
     }
   },
   "forwardPorts": [8888],
-  "postCreateCommand": "nohup jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='jupyter' > /dev/null 2>&1 &",
-  "postStartCommand": "until [ -f /root/.vscode-R/init.R ]; do sleep 0.1; done; radian"
+  "postCreateCommand": "chmod +x /workspaces/DOL_DOCKER_VAL/docker/setting_files/start_jupyter.sh",
+  "postStartCommand": "/workspaces/DOL_DOCKER_VAL/docker/setting_files/start_jupyter.sh"
 }

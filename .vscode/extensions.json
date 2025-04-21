@@ -1,3 +1,11 @@
 {
-  "recommendations": ["ms-toolsai.jupyter-renderers"]
+  "recommendations": [
+    "ms-toolsai.jupyter",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.debugpy",
+    "ms-toolsai.datawrangler",
+    "grapecity.gc-excelviewer",
+    "christian-kohler.path-intellisense"
+  ]
 }
